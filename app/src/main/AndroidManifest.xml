@@ -7,7 +7,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:allowBackup="true"
+        android:name=".AppMainApplication"
+        android:allowBackup="false"
         android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -45,12 +46,21 @@
             <!-- android:configChanges="orientation|keyboardHidden" 避免横竖屏切换导致重复调用 onCreate() 方法。 -->
 
         </activity>
-        <activity android:name=".TextShowingActivity"
+        <activity
+            android:name=".TextShowingActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name">
+
             <!-- android:configChanges="orientation|keyboardHidden" 避免横竖屏切换导致重复调用 onCreate() 方法。 -->
 
         </activity>
+
+        <service
+            android:name=".AppVersionCheckingService"
+            android:enabled="true"
+            android:exported="false">
+
+        </service>
     </application>
 
 </manifest>

@@ -10,7 +10,7 @@ package com.src_resources.classThreeApplication
  * 括号外的内容 - 必须有。<br/>
  * A - 主版本号。取值：在区间 [0,正无穷大) 中任取一个自然数。<br/>
  * B - 次版本号。取值：在区间 [0,正无穷大) 中任取一个自然数。<br/>
- * C - Bug 修复版本号，一个版本出现 Bug 发布紧急修复版本时递增的版本号。取值：在区间 [0,正无穷大) 中任取一个自然数。<br/>
+ * C - Bug 修复版本号（ Debug 版本号），一个版本出现 Bug 发布紧急修复版本时递增的版本号。取值：在区间 [0,正无穷大) 中任取一个自然数。一般而言，要使用这类版本号，最小值应取 1 ，因为 0 是作为缺省值了的。<br/>
  * beta - 测试版版本号，一个版本在其正式发布前每发布一个版本时递增的版本号。此类版本号应写作“beta+数字”的类型（没有双引号和加号），其中“数字”可以取任意的非负整数。默认值为 0 。一般而言，要使用这类版本号，最小值应取 1 ，因为 0 是作为缺省值了的。<br/>
  * dev - 开发者版版本号，一个版本在其还在开发时每发布一个版本时递增的版本号。此类版本号应写作“dev+数字”的类型（没有双引号和加号），其中“数字”可以取任意的非负整数。默认值为 0 。一般而言，要使用这类版本号，最小值应取 1 ，因为 0 是作为缺省值了的。<br/>
  * <br/>
@@ -20,13 +20,13 @@ package com.src_resources.classThreeApplication
  * 2.5beta4 - 表示正式版 2.5 的第 4 个测试版。
  */
 data class AppVersion(
-        var mainVersionNumber: Int, var secondaryVersionNumber: Int, var betaVersionNumber: Int,
-        var developerVersionNumber: Int) {
+        var mainVersionNumber: Int, var secondaryVersionNumber: Int, var debugVersionNumber: Int,
+        var betaVersionNumber: Int, var developerVersionNumber: Int) : Comparable<AppVersion> {
 
     companion object AppVersionFactory {
         fun parse(versionString: String): AppVersion {
             // 创建正则表达式，用来检测传入的版本号是否有误。
-            val regex = Regex("\\d+\\.\\d+(beta\\d+)?(dev\\d+)?")
+            val regex = Regex("\\d+\\.\\d+(\\.\\d+)?(beta\\d+)?(dev\\d+)?")
             // 判断传入的版本号是否有误。
             if (regex.matches(versionString)) {
                 // 如果无误，创建对应的 AppVersion 对象。
@@ -37,6 +37,27 @@ data class AppVersion(
                 val mainVersionNumber = Integer.parseInt(mainVersionNumberString)
                 val secondaryVersionNumberString = mainAndSecondaryVersionNumberStringArray[1]
                 val secondaryVersionNumber = Integer.parseInt(secondaryVersionNumberString)
+                // 获取到 Debug 版本号。
+                val debugVersionString = kotlin.run {
+                    var debugVersionString: String
+                    // 如果有 Debug 版本号或次版本号。
+                    if (Regex("\\.\\d+").containsMatchIn(versionString)) {
+                        try {
+                            // 获取到 Debug 版本号。
+                            val debugVersionStringUnhandled = Regex("\\.\\d+").findAll(versionString).elementAt(1).value
+                            debugVersionString = debugVersionStringUnhandled.substring(".".length)
+                        } catch (ex: IndexOutOfBoundsException) {
+                            // 如果获取 Debug 版本号失败（没有 Debug 版本号）。
+                            // 返回缺省 Debug 版本号 (0) 。
+                            debugVersionString = "0"
+                        }
+                    } else {
+                        // 返回缺省 Debug 版本号 (0) 。
+                        debugVersionString = "0"
+                    }
+                    debugVersionString
+                }
+                val debugVersionNumber = Integer.parseInt(debugVersionString)
                 // 获取到 beta 版本号。
                 val betaVersionString = kotlin.run {
                     val betaVersionString: String
@@ -69,7 +90,7 @@ data class AppVersion(
                 val devVersionNumber = Integer.parseInt(devVersionString)
 
                 // 创建对应的 AppVersion 对象。
-                val appVersionObj = AppVersion(mainVersionNumber, secondaryVersionNumber, betaVersionNumber, devVersionNumber)
+                val appVersionObj = AppVersion(mainVersionNumber, secondaryVersionNumber, debugVersionNumber, betaVersionNumber, devVersionNumber)
                 // 返回该 AppVersion 对象。
                 return appVersionObj
             } else {
@@ -79,4 +100,40 @@ data class AppVersion(
         }
     }
 
+    override fun compareTo(other: AppVersion): Int {
+        // 比较主版本号。
+        when {
+            this.mainVersionNumber > other.mainVersionNumber -> return 1
+            this.mainVersionNumber < other.mainVersionNumber -> return -1
+            else -> {
+                // 比较次版本号。
+                when {
+                    this.secondaryVersionNumber > other.secondaryVersionNumber -> return 1
+                    this.secondaryVersionNumber < other.secondaryVersionNumber -> return -1
+                    else -> {
+                        // 比较 Debug 版本号。
+                        when {
+                            this.debugVersionNumber > other.debugVersionNumber -> return 1
+                            this.debugVersionNumber < other.debugVersionNumber -> return -1
+                            else -> {
+                                // 比较 Beta 版本号。
+                                when {
+                                    this.betaVersionNumber > other.betaVersionNumber -> return 1
+                                    this.betaVersionNumber < other.betaVersionNumber -> return -1
+                                    else -> {
+                                        // 比较 Dev 版本号。
+                                        when {
+                                            this.developerVersionNumber > other.developerVersionNumber -> return 1
+                                            this.developerVersionNumber < other.developerVersionNumber -> return -1
+                                            else -> return 0
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

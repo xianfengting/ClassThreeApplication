@@ -35,6 +35,12 @@ class AppLauncherActivity : AppCompatActivity() {
 
     /* 启动应用程序的线程。 */
     private var mLauncherThread = Thread({
+        // 启动 AppVersionCheckingService 。
+        kotlin.run {
+            val intent = Intent(this, AppVersionCheckingService::class.java)
+            startService(intent)
+        }
+
         try {
             // 1000 毫秒后开始绘制底部滚动动画效果。
             Thread.sleep(1000)
