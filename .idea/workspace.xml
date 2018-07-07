@@ -10,16 +10,9 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="57bf0503-3524-4334-afc2-b1fe3cd24a3e" name="Default" comment="Upload new code and files.">
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/src_resources/classThreeApplication/AppMainApplication.kt" />
-      <change beforePath="" afterPath="$PROJECT_DIR$/app/src/main/java/com/src_resources/classThreeApplication/AppVersionCheckingService.kt" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" />
+    <list default="true" id="57bf0503-3524-4334-afc2-b1fe3cd24a3e" name="Default" comment="Change some code.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/src_resources/classThreeApplication/AppLauncherActivity.kt" afterPath="$PROJECT_DIR$/app/src/main/java/com/src_resources/classThreeApplication/AppLauncherActivity.kt" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/src_resources/classThreeApplication/AppVersion.kt" afterPath="$PROJECT_DIR$/app/src/main/java/com/src_resources/classThreeApplication/AppVersion.kt" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/test/java/com/src_resources/classThreeApplication/AppMainUnitTest.kt" afterPath="$PROJECT_DIR$/app/src/test/java/com/src_resources/classThreeApplication/AppMainUnitTest.kt" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/src_resources/classThreeApplication/AppVersionCheckingService.kt" afterPath="$PROJECT_DIR$/app/src/main/java/com/src_resources/classThreeApplication/AppVersionCheckingService.kt" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -80,12 +73,12 @@
       <file leaf-file-name="AppVersionCheckingService.kt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/src_resources/classThreeApplication/AppVersionCheckingService.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="351">
-              <caret line="61" column="47" lean-forward="false" selection-start-line="61" selection-start-column="47" selection-end-line="61" selection-end-column="47" />
+            <state relative-caret-position="444">
+              <caret line="92" column="56" lean-forward="false" selection-start-line="92" selection-start-column="56" selection-end-line="92" selection-end-column="56" />
               <folding>
                 <element signature="e#49#329#0" expanded="true" />
-                <element signature="e#4147#4184#1" expanded="true" />
-                <element signature="e#4496#4533#1" expanded="true" />
+                <element signature="e#4149#4186#1" expanded="true" />
+                <element signature="e#4499#4536#1" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -2595,7 +2588,14 @@
       <option name="project" value="LOCAL" />
       <updated>1530950317270</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Upload new code and files.">
+      <created>1530978097754</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1530978097755</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -2649,7 +2649,7 @@
       <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.39976135" sideWeight="0.47192225" order="12" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293556" sideWeight="0.5037797" order="12" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3293556" sideWeight="0.49676025" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3293556" sideWeight="0.4962203" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32777777" sideWeight="0.48704103" order="3" side_tool="false" content_ui="tabs" />
@@ -2742,7 +2742,8 @@
   <component name="VcsManagerConfiguration">
     <option name="LOCAL_CHANGES_DETAILS_PREVIEW_SHOWN" value="true" />
     <MESSAGE value="Upload new code and files." />
-    <option name="LAST_COMMIT_MESSAGE" value="Upload new code and files." />
+    <MESSAGE value="Change some code." />
+    <option name="LAST_COMMIT_MESSAGE" value="Change some code." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -3242,12 +3243,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/src_resources/classThreeApplication/AppVersionCheckingService.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="61" column="47" lean-forward="false" selection-start-line="61" selection-start-column="47" selection-end-line="61" selection-end-column="47" />
+        <state relative-caret-position="444">
+          <caret line="92" column="56" lean-forward="false" selection-start-line="92" selection-start-column="56" selection-end-line="92" selection-end-column="56" />
           <folding>
             <element signature="e#49#329#0" expanded="true" />
-            <element signature="e#4147#4184#1" expanded="true" />
-            <element signature="e#4496#4533#1" expanded="true" />
+            <element signature="e#4149#4186#1" expanded="true" />
+            <element signature="e#4499#4536#1" expanded="true" />
           </folding>
         </state>
       </provider>

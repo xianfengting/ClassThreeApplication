@@ -82,15 +82,15 @@ class AppVersionCheckingService : Service() {
                 val latestVersionNumberString = jsonObject.getString("tag_name")
                 // 根据获取到的版本号创建 AppVersion 对象。
                 val latestVersionNumber = AppVersion.parse(latestVersionNumberString)
-                // 判断两个版本号的大小
+                // 判断两个版本号的大小。
                 when (latestVersionNumber.compareTo(mApplicationObj.mCurrentVersion)) {
-                    // 如果最新版本的版本号比当前版本的版本号大
+                    // 如果最新版本的版本号比当前版本的版本号大。
                     1 -> {
                         // TODO：执行操作。
                         Log.i(resources.getString(R.string.log_tag),
                                 "AppVersionCheckingService checked: There is a newer version than current version. Updating needed.")
                     }
-                    // 如果最新版本的版本号和当前版本的版本号相同或比当前版本的版本号小
+                    // 如果最新版本的版本号和当前版本的版本号相同或比当前版本的版本号小。
                     else -> {
                         // TODO：执行操作。
                         Log.i(resources.getString(R.string.log_tag),
