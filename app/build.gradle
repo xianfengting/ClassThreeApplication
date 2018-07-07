@@ -1,0 +1,48 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 27
+    defaultConfig {
+        applicationId "com.src_resources.classThreeApplication"
+        minSdkVersion 23
+        targetSdkVersion 23
+        // 如果保持以下代码生效，此处的设置将覆盖 AndroidMainfest.xml 中的设置。
+        //versionCode 1
+        //versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            signingConfigs {
+                signingConfig.storeFile = file(KEYSTORE_STORE_FILE)
+                signingConfig.storePassword = KEYSTORE_STORE_PASSWORD
+                signingConfig.keyAlias = KEYSTORE_KEY_ALIAS
+                signingConfig.keyPassword = KEYSTORE_KEY_PASSWORD
+            }
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation 'com.android.support:appcompat-v7:27.0.2'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    testImplementation 'junit:junit:4.12'
+
+    // TODO ： Android Test API 无法下载。
+    //androidTestImplementation 'com.android.support.test:runner:0.2'
+    //androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.1'
+    // TODO ： Android Test API 无法下载。
+    //androidTestImplementation 'com.android.support.test:runner:0.2'
+    //androidTestImplementation 'com.android.support.test:rules:0.2'
+    //androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.1'
+}

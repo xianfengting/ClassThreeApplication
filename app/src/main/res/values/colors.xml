@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="black_overlay">#66000000</color>
+
+    <color name="uncertain_bar_moving_bar__gradient__startColor">#FFFFFF</color>
+    <color name="uncertain_bar_moving_bar__gradient__centerColor">#304ffe</color>
+    <color name="uncertain_bar_moving_bar__gradient__endColor">#FFFFFF</color>
+</resources>

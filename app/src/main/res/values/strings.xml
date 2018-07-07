@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">3班班级应用</string>
+    <string name="app_versionName">开发版本 1</string>
+    <string name="app_launching">应用正在启动</string>
+
+    <string name="log_tag">ClassThreeApplication</string>
+    <string name="log_errorMessage">错误: %1$s</string>
+    <string name="log_errorMessage_appExitedBeforeLaunchFinished">错误: 应用程序在启动完成之前已退出。</string>
+
+    <string name="function_notImplemented">功能未实现</string>
+    <string name="function_notImplementedYet">功能尚未实现</string>
+    <string name="function_targetNotImplemented">功能“%1$s”未实现</string>
+    <string name="function_targetNotImplementedYet">功能“%1$s”尚未实现</string>
+    <string name="function_otherFunctionsNotImplemented">其它功能未实现</string>
+    <string name="function_otherFunctionsNotImplementedYet">其它功能尚未实现</string>
+
+    <string name="launching">启动中</string>
+    <string name="warning">注意</string>
+    <string name="warningWithMessage">注意：%1$s</string>
+
+    <string name="class_introduction">班级介绍</string>
+
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+</resources>

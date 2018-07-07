@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+
+    <size
+        android:width="300dp"
+        android:height="50px" />
+
+    <gradient
+        android:centerX="150dp"
+        android:centerY="25px"
+        android:startColor="@color/uncertain_bar_moving_bar__gradient__startColor"
+        android:centerColor="@color/uncertain_bar_moving_bar__gradient__centerColor"
+        android:endColor="@color/uncertain_bar_moving_bar__gradient__endColor" />
+
+</shape>
