@@ -24,10 +24,10 @@ class AppMainActivity : AppCompatActivity() {
                             resources.getString(R.string.class_introduction)),
                     Toast.LENGTH_SHORT).show()*/
 
-            Toast.makeText(this,
+            /*Toast.makeText(this,
                     resources.getString(R.string.warningWithMessage,
                             "注意！此功能有 Bug ，尚未找到解决的方法。此 Bug 可能使应用崩溃。请小心使用。"),
-                    Toast.LENGTH_LONG).show()
+                    Toast.LENGTH_LONG).show()*/
 
             // 启动 BrowserActivity ，显示班级介绍 html 文件。
             // 这种方法有 Bug 暂时不能使用。
