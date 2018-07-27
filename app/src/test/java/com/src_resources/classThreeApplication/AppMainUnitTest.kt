@@ -163,4 +163,9 @@ class AppMainUnitTest {
         // 这里不用断言。
         // assertEquals(latestVersionJsonString.length, latestVersionJsonUrlConnection.contentLength)
     }
+
+    @Test
+    fun debug_library_ObjectFactory() {
+        
+    }
 }
