@@ -1,5 +1,8 @@
 package com.src_resources.classThreeApplication
 
+import android.os.Parcel
+import android.os.Parcelable
+
 /**
  * 应用程序版本类。用于解析版本。<br/>
  * <br/>
@@ -21,9 +24,24 @@ package com.src_resources.classThreeApplication
  */
 data class AppVersion(
         var mainVersionNumber: Int, var secondaryVersionNumber: Int, var debugVersionNumber: Int,
-        var betaVersionNumber: Int, var developerVersionNumber: Int) : Comparable<AppVersion> {
+        var betaVersionNumber: Int, var developerVersionNumber: Int) : Comparable<AppVersion>, Parcelable {
 
     companion object AppVersionFactory {
+        @JvmField
+        final val CREATOR: Parcelable.Creator<AppVersion> = object : Parcelable.Creator<AppVersion> {
+            override fun createFromParcel(source: Parcel?): AppVersion {
+                if (source == null) {
+                    throw IllegalArgumentException("The Parcel object is null.")
+                } else {
+                    return AppVersion(source)
+                }
+            }
+
+            override fun newArray(size: Int): Array<AppVersion?> {
+                return arrayOfNulls(size)
+            }
+        }
+
         fun parse(versionString: String): AppVersion {
             // 创建正则表达式，用来检测传入的版本号是否有误。
             val regex = Regex("\\d+\\.\\d+(\\.\\d+)?(beta\\d+)?(dev\\d+)?")
@@ -100,6 +118,10 @@ data class AppVersion(
         }
     }
 
+    constructor() : this(0, 0, 0, 0, 0)
+    constructor(source: Parcel) : this(source.readInt(), source.readInt(), source.readInt(),
+            source.readInt(), source.readInt())
+
     override fun compareTo(other: AppVersion): Int {
         // 比较主版本号。
         when {
@@ -135,5 +157,56 @@ data class AppVersion(
                 }
             }
         }
+    }
+
+    override fun writeToParcel(dest: Parcel?, flags: Int) {
+        if (dest == null) {
+            throw IllegalArgumentException("The Parcel object is null.")
+        } else {
+            // 将属性写入 Parcel 对象。
+            dest.writeInt(mainVersionNumber)
+            dest.writeInt(secondaryVersionNumber)
+            dest.writeInt(debugVersionNumber)
+            dest.writeInt(betaVersionNumber)
+            dest.writeInt(developerVersionNumber)
+        }
+    }
+
+    /**
+     * 从 Parcel 对象中读取数据。
+     * 这个方法并没有定义在 Parcelable 接口中。
+     * 需要自己写。
+     * 并且不用 override 。
+     * @param source Parcel 对象。
+     */
+    fun readFromParcel(source: Parcel?) {
+        if (source == null) {
+            throw IllegalArgumentException("The Parcel object is null.")
+        } else {
+            // 注意，此处的读值顺序应当是和 writeToParcel() 方法中一致的！
+            mainVersionNumber = source.readInt()
+            secondaryVersionNumber = source.readInt()
+            debugVersionNumber = source.readInt()
+            betaVersionNumber = source.readInt()
+            developerVersionNumber = source.readInt()
+        }
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    override fun toString(): String {
+        val builder = StringBuilder()
+        builder.append(mainVersionNumber)
+        builder.append(".")
+        builder.append(secondaryVersionNumber)
+        builder.append(".")
+        builder.append(debugVersionNumber)
+        builder.append("beta")
+        builder.append(betaVersionNumber)
+        builder.append("dev")
+        builder.append(developerVersionNumber)
+        return builder.toString()
     }
 }

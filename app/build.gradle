@@ -6,6 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 27
+
     defaultConfig {
         applicationId "com.src_resources.classThreeApplication"
         minSdkVersion 23
@@ -15,6 +16,7 @@ android {
         //versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         debug {
             signingConfigs {
@@ -29,7 +31,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    dexOptions {
+        maxProcessCount 4 // this is the default value
+        javaMaxHeapSize "2.5g"
+    }
 }
+
+/*
+androidDependencies {
+    experimental = true
+}
+*/
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')

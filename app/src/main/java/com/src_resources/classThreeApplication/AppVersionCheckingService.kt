@@ -1,11 +1,9 @@
 package com.src_resources.classThreeApplication
 
-import android.app.Application
 import android.app.Service
 import android.content.Intent
 import android.os.IBinder
 import org.json.JSONObject
-import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import android.os.StrictMode
@@ -14,11 +12,21 @@ import android.util.Log
 
 class AppVersionCheckingService : Service() {
 
+    companion object {
+        var isServiceRunning = false
+            // 设置 setter 为 private ，外部无法调用 setter 。
+            private set
+    }
+
     private lateinit var mApplicationObj: AppMainApplication
     private lateinit var mAppVersionCheckingThread: Thread
+    private lateinit var mAppVersionManager: DefaultAppVersionManager
 
     override fun onCreate() {
         super.onCreate()
+
+        // 标记当前 Service 正在运行。
+        isServiceRunning = true
 
         // 启动线程的 StrictMode （严格模式）。
         StrictMode.setThreadPolicy(StrictMode.ThreadPolicy.Builder()
@@ -29,6 +37,9 @@ class AppVersionCheckingService : Service() {
                 .build())
 
         mApplicationObj = application as AppMainApplication
+
+        mAppVersionManager = DefaultAppVersionManager(null, mApplicationObj.mCurrentVersion, false, null)
+
         mAppVersionCheckingThread = object : Thread("AppVersionCheckingService-mAppVersionCheckingThread") {
             override fun run() {
                 // 启动当前线程的 StrictMode （严格模式）。
@@ -82,17 +93,38 @@ class AppVersionCheckingService : Service() {
                 val latestVersionNumberString = jsonObject.getString("tag_name")
                 // 根据获取到的版本号创建 AppVersion 对象。
                 val latestVersionNumber = AppVersion.parse(latestVersionNumberString)
+                // 将最新的版本号保存在 AppVersionManager 里面。
+                mAppVersionManager.mLatestAppVersion = latestVersionNumber
                 // 判断两个版本号的大小。
                 when (latestVersionNumber.compareTo(mApplicationObj.mCurrentVersion)) {
                     // 如果最新版本的版本号比当前版本的版本号大。
                     1 -> {
-                        // TODO：执行操作。
+                        kotlin.run {
+                            // 获取到文件列表数组。
+                            val assets = jsonObject.getJSONArray("assets")
+                            // 遍历数组。
+                            for (index in 0 until assets.length()) {
+                                // 获取到当前索引位置的 JSONObject 。
+                                val jsonObjInAssets = assets.getJSONObject(index)
+                                // 获取该 JSONObject 的 name （即文件名称）。
+                                val nameOfJsonObjInAssets = jsonObjInAssets.getString("name")
+                                // 如果该 name 的值是 "app-release.apk" （即文件名称是 "app-release.apk" ）。
+                                if (nameOfJsonObjInAssets == "app-release.apk") {
+                                    // 获取到该文件的下载的 URL 地址（即下载链接）。
+                                    val downloadUrlOfJsonObjInAssets = jsonObjInAssets.getString("browser_download_url")
+                                    // 把该 URL 存入 AppVersionManager 对象。
+                                    mAppVersionManager.mUpdateDownloadUrl = downloadUrlOfJsonObjInAssets
+                                    // 跳出循环。
+                                    break
+                                }
+                            }
+                        }
+                        mAppVersionManager.mNeedsUpdate = true
                         Log.i(resources.getString(R.string.log_tag),
                                 "AppVersionCheckingService checked: There is a newer version than current version. Updating needed.")
                     }
                     // 如果最新版本的版本号和当前版本的版本号相同或比当前版本的版本号小。
                     else -> {
-                        // TODO：执行操作。
                         Log.i(resources.getString(R.string.log_tag),
                                 "AppVersionCheckingService checked: There isn't a newer version than current version. Updating not needed.")
                     }
@@ -102,13 +134,27 @@ class AppVersionCheckingService : Service() {
     }
 
     override fun onBind(intent: Intent): IBinder {
-        TODO("Return the communication channel to the service.")
+        return mAppVersionManager.asBinder()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        // 启动应用程序版本检查线程。
-        mAppVersionCheckingThread.start()
+        try {
+            // 启动应用程序版本检查线程。
+            mAppVersionCheckingThread.start()
+        } catch (exception: IllegalThreadStateException) {
+            Log.e(resources.getString(R.string.log_tag),
+                    resources.getString(R.string.log_errorMessage,
+                            "The version checking thread is already started."),
+                    exception)
+        }
         // 返回 START_STICKY ，保证 Service 被杀死后重启。
         return START_STICKY
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        // 标记当前 Service 没有运行。
+        isServiceRunning = false
     }
 }

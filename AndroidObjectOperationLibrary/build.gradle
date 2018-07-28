@@ -24,6 +24,10 @@ android {
         }
     }
 
+    dexOptions {
+        maxProcessCount 4 // this is the default value
+        javaMaxHeapSize "2.5g"
+    }
 }
 
 dependencies {

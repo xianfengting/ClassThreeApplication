@@ -1,5 +1,6 @@
 package com.src_resources.classThreeApplication
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.ActivityInfo
@@ -10,6 +11,7 @@ import android.os.Message
 import android.util.Log
 import android.view.Window
 import android.view.WindowManager
+import kotlin.collections.*
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -37,8 +39,17 @@ class AppLauncherActivity : AppCompatActivity() {
     private var mLauncherThread = Thread({
         // 启动 AppVersionCheckingService 。
         kotlin.run {
-            val intent = Intent(this, AppVersionCheckingService::class.java)
-            startService(intent)
+            if (AppVersionCheckingService.isServiceRunning) {
+                // 如果 AppVersionCheckingService 正在运行。
+                Log.i(resources.getString(R.string.log_tag),
+                        "AppVersionCheckingService is already running. AppLauncherActivity didn't start AppVersionCheckingService just now.")
+            } else {
+                // 如果 AppVersionCheckingService 没有运行，启动该 Service 。
+                val intent = Intent(this, AppVersionCheckingService::class.java)
+                startService(intent)
+                Log.i(resources.getString(R.string.log_tag),
+                        "AppVersionCheckingService wasn't running just now and AppLauncherActivity started AppVersionCheckingService.")
+            }
         }
 
         try {
@@ -72,6 +83,12 @@ class AppLauncherActivity : AppCompatActivity() {
 
         // 运行启动应用程序的线程。
         mLauncherThread.start()
+
+        // 请求权限。
+        requestPermissionIfNotGrantedCompat(PermissionRequestCode.REQUEST_READ_EXTERNAL_STORAGE.intValue,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+        requestPermissionIfNotGrantedCompat(PermissionRequestCode.REQUEST_WRITE_EXTERNAL_STORAGE.intValue,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
     }
 
 
@@ -105,4 +122,13 @@ class AppLauncherActivity : AppCompatActivity() {
 
         super.onResume()
     }
+
+    /*
+    // TODO：有 Bug 。
+    private fun checkAppPermissions(vararg permissionMap: Map<Int, String>) {
+        for ((key, value) in permissionMap) {
+
+        }
+    }
+    */
 }

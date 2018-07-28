@@ -46,8 +46,8 @@ class UncertainBarView(context: Context?, attrs: AttributeSet?) : View(context, 
                     }
                     mHandler.post({
                         invalidate()
-                        Log.v(resources.getString(R.string.log_tag),
-                                "UncertainBarView: Updated moving bar, mXPosition: $mXPosition")
+                        //Log.v(resources.getString(R.string.log_tag),
+                        //        "UncertainBarView: Updated moving bar, mXPosition: $mXPosition")
                     })
                     Thread.sleep(25)
                 }

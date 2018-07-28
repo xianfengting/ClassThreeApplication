@@ -1,15 +1,78 @@
 package com.src_resources.classThreeApplication
 
+import android.content.ComponentName
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.ServiceConnection
 import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.os.IBinder
+import android.support.v7.app.AlertDialog
+import android.util.AndroidRuntimeException
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import java.io.InputStreamReader
 
 class AppMainActivity : AppCompatActivity() {
+
+    private inner class MyServiceConnection : ServiceConnection {
+
+        var isServiceConnected: Boolean = false
+
+        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
+            if (name == null || service == null) {
+                throw NullPointerException("The arguments must not be null.")
+            } else {
+                if (service is IAppVersionManager) {
+                    mAppVersionManager = service
+                    val latestAppVersion = mAppVersionManager?.latestAppVersion
+                    // 如果需要更新。
+                    if (mAppVersionManager?.isUpdateNeeded == true) {
+                        AlertDialog.Builder(this@AppMainActivity)
+                                .setTitle("有更新")
+                                .setMessage("你的应用有更新，新版本：${latestAppVersion.toString()}\n是否更新")
+                                .setPositiveButton("我要更新！", { _, _ ->
+                                    if (mAppVersionManager?.updateDownloadUrl == null) {
+                                        // 如果下载 URL 地址为 null 。
+                                        Toast.makeText(this@AppMainActivity,
+                                                resources.getText(R.string.log_errorMessage,
+                                                        "无法下载更新：下载链接未知。"),
+                                                Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        // 如果下载 URL 地址不为 null 。
+                                        // 跳转至下载页面。
+                                        val intent = Intent(Intent.ACTION_VIEW,
+                                                Uri.parse(mAppVersionManager?.updateDownloadUrl))
+                                        startActivity(intent)
+                                    }
+                                })
+                                .setNegativeButton("以后再说！", { _, _ ->
+                                    /*Toast.makeText(this@AppMainActivity,
+                                            "暂未实现",
+                                            Toast.LENGTH_SHORT).show()*/
+                                })
+                                .show()
+                    }
+                }
+                isServiceConnected = true
+            }
+        }
+
+        override fun onServiceDisconnected(name: ComponentName?) {
+            if (name == null) {
+                throw NullPointerException("The argument must not be null.")
+            } else {
+                isServiceConnected = false
+            }
+        }
+
+    }
+
+    private var mAppVersionManager: IAppVersionManager? = null
+    private lateinit var mServiceConnection : MyServiceConnection
 
     private lateinit var mClassIntroductionButton: Button
 
@@ -62,6 +125,28 @@ class AppMainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+
+        // 创建 MyServiceConnection 对象。
+        mServiceConnection = MyServiceConnection()
+
+        // 绑定到 AppVersionCheckingService 。
+        kotlin.run {
+            val intent = Intent(this, AppVersionCheckingService::class.java)
+            if (bindService(intent, mServiceConnection, 0)) {
+                // 绑定成功。
+                Log.i(resources.getString(R.string.log_tag),
+                        "AppMainActivity binded to AppVersionCheckingService successfully.")
+            } else {
+                // 绑定失败。
+                // 抛出异常。
+                val exception = AndroidRuntimeException("AppMainActivity binded to AppVersionCheckingService failed.")
+                Log.e(resources.getString(R.string.log_tag),
+                        resources.getString(R.string.log_errorMessage,
+                                "AppMainActivity binded to AppVersionCheckingService failed."),
+                        exception)
+                throw exception
+            }
+        }
     }
 
     override fun onResume() {
@@ -73,5 +158,11 @@ class AppMainActivity : AppCompatActivity() {
         }
 
         super.onResume()
+    }
+
+    override fun onDestroy() {
+        // 解除绑定 Service 。
+        unbindService(mServiceConnection)
+        super.onDestroy()
     }
 }
