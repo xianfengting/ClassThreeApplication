@@ -26,4 +26,9 @@ interface IAppVersionManager {
      */
     String getUpdateDownloadUrl();
 
+    /**
+     * 获取中国国内下载更新的 URL 地址。
+     */
+    String getChineseUpdateDownloadUrl();
+
 }

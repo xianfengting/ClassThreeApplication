@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="Gradle: com.src_resources.libraries:AndroidKotlinExtendLibrary-1.0dev1">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../../../../Developing_Kits/Gradle/.gradle/caches/transforms-1/files-1.1/AndroidKotlinExtendLibrary-1.0dev1.aar/adb645fbf1da48c48122528710ed7c5c/res" />
+      <root url="jar://$PROJECT_DIR$/../../../../Developing_Kits/Gradle/.gradle/caches/transforms-1/files-1.1/AndroidKotlinExtendLibrary-1.0dev1.aar/adb645fbf1da48c48122528710ed7c5c/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

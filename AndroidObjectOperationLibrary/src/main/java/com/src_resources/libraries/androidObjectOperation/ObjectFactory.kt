@@ -4,9 +4,9 @@ package com.src_resources.libraries.androidObjectOperation
  * 对象工厂类。
  * 使用此类可以更便捷地提供一个类型创建对象的方式。
  */
-class ObjectFactory<T> private constructor(
+class ObjectFactory<out T> private constructor(
         // 对象获取函数。
-        var mObjectObtainingFunction: (ObjectFactory<T>) -> T) {
+        private var mObjectObtainingFunction: (ObjectFactory<T>) -> T) {
 
     companion object {
         /**

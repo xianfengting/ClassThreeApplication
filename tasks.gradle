@@ -1,0 +1,21 @@
+
+def do_testTasks(int counter) {
+    println "Started executing task: testTask$counter"
+    5.times { counter2 ->
+        Thread.sleep(1000)
+        println "Executing task 'testTask$counter' for ${counter2 + 1}s"
+    }
+    println "Finished executing task: testTask$counter"
+}
+
+10.times { counter ->
+    if (counter == 0) {
+        task "testTask$counter" << {
+            do_testTasks(counter)
+        }
+    } else {
+        task "testTask$counter"(dependsOn: "testTask${counter - 1}") << {
+            do_testTasks(counter)
+        }
+    }
+}

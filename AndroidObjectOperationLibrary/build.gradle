@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         minSdkVersion 23
-        targetSdkVersion 23
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
 
@@ -35,7 +35,8 @@ dependencies {
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     implementation 'com.android.support:appcompat-v7:27.0.2'
-    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
+    // TODO : constraint-layout 被墙了。
+    // implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     //compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     //androidTestImplementation 'com.android.support.test:runner:1.0.2'

@@ -2,9 +2,9 @@ package com.src_resources.libraries.androidObjectOperation
 
 import org.junit.Test
 
-class ObjectFactroyTest {
+class ObjectFactoryTest {
     @Test
-    fun test_ObjectFactroy() {
+    fun test_ObjectFactory() {
         class MyObject {
             fun sayHello() {
                 println("Hello!")

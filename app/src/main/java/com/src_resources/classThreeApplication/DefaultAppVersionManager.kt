@@ -11,7 +11,8 @@ data class DefaultAppVersionManager(
         var mLatestAppVersion: AppVersion?,
         var mCurrentAppVersion: AppVersion?,
         var mNeedsUpdate: Boolean,
-        var mUpdateDownloadUrl: String?) : IAppVersionManager.Stub() {
+        var mUpdateDownloadUrl: String?,
+        var mChineseUpdateDownloadUrl: String?) : IAppVersionManager.Stub() {
 
     override fun getLatestAppVersion(): AppVersion? {
         return mLatestAppVersion
@@ -27,5 +28,9 @@ data class DefaultAppVersionManager(
 
     override fun getUpdateDownloadUrl(): String? {
         return mUpdateDownloadUrl
+    }
+
+    override fun getChineseUpdateDownloadUrl(): String? {
+        return mChineseUpdateDownloadUrl
     }
 }

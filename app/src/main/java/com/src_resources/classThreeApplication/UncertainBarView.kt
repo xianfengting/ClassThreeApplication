@@ -1,6 +1,7 @@
 package com.src_resources.classThreeApplication
 
 import android.content.Context
+import android.content.res.Resources
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
@@ -13,8 +14,8 @@ import android.view.View
 class UncertainBarView(context: Context?, attrs: AttributeSet?) : View(context, attrs) {
 
     companion object {
-        val MOVING_BAR_WIDTH = 300
-        val MOVING_BAR_HEIGHT = 50
+        const val MOVING_BAR_WIDTH = 500
+        const val MOVING_BAR_HEIGHT = 50
     }
 
     private var mHandler = Handler()
@@ -68,7 +69,16 @@ class UncertainBarView(context: Context?, attrs: AttributeSet?) : View(context, 
 
     override fun onDraw(canvas: Canvas?) {
         if (isDrawingMovingBar) {
-            canvas?.drawRect(Rect(mXPosition, height - 50, mXPosition + MOVING_BAR_WIDTH, height), mPaint)
+            // 绘制外部的条状。
+            val dOuter = resources.getDrawable(R.drawable.ic_uncettain_bar_view_outer_bar)
+            dOuter.bounds = Rect(0, height - 50, width, height)
+            dOuter.draw(canvas)
+
+            // 绘制内部的条状。
+            //canvas?.drawRect(Rect(mXPosition, height - 50, mXPosition + MOVING_BAR_WIDTH, height), mPaint)
+            val dInner = resources.getDrawable(R.drawable.ic_uncettain_bar_view_inner_bar)
+            dInner.bounds = Rect(mXPosition, height - 50, mXPosition + MOVING_BAR_WIDTH, height)
+            dInner.draw(canvas)
         }
     }
 

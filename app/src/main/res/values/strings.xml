@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">3班班级应用</string>
-    <string name="app_versionName">开发版本 0</string>
+    <string name="app_versionName">开发版本 2</string>
     <string name="app_launching">应用正在启动</string>
-    <string name="app_currentVersionNumber">1.0dev0</string>
+    <string name="app_currentVersionNumber">1.0dev2</string>
 
     <string name="log_tag">ClassThreeApplication</string>
     <string name="log_errorMessage">错误: %1$s</string>

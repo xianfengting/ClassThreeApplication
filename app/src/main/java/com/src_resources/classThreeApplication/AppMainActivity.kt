@@ -33,8 +33,8 @@ class AppMainActivity : AppCompatActivity() {
                     if (mAppVersionManager?.isUpdateNeeded == true) {
                         AlertDialog.Builder(this@AppMainActivity)
                                 .setTitle("有更新")
-                                .setMessage("你的应用有更新，新版本：${latestAppVersion.toString()}\n是否更新")
-                                .setPositiveButton("我要更新！", { _, _ ->
+                                .setMessage("你的应用有更新，新版本：${latestAppVersion.toString()}，是否更新?\n提示:由于更新是从github上下载，故如果不翻墙下载就比较慢。\n若实在下不下来请选择从国内地址下载更新或联系作者QQ:1142631421以获取更新。")
+                                .setPositiveButton("从github更新！", { _, _ ->
                                     if (mAppVersionManager?.updateDownloadUrl == null) {
                                         // 如果下载 URL 地址为 null 。
                                         Toast.makeText(this@AppMainActivity,
@@ -46,6 +46,21 @@ class AppMainActivity : AppCompatActivity() {
                                         // 跳转至下载页面。
                                         val intent = Intent(Intent.ACTION_VIEW,
                                                 Uri.parse(mAppVersionManager?.updateDownloadUrl))
+                                        startActivity(intent)
+                                    }
+                                })
+                                .setNeutralButton("从国内下载地址更新！", { _, _ ->
+                                    if (mAppVersionManager?.chineseUpdateDownloadUrl == null) {
+                                        // 如果下载 URL 地址为 null 。
+                                        Toast.makeText(this@AppMainActivity,
+                                                resources.getText(R.string.log_errorMessage,
+                                                        "无法从国内下载更新：下载链接未知。"),
+                                                Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        // 如果下载 URL 地址不为 null 。
+                                        // 跳转至国内下载页面。
+                                        val intent = Intent(Intent.ACTION_VIEW,
+                                                Uri.parse(mAppVersionManager?.chineseUpdateDownloadUrl))
                                         startActivity(intent)
                                     }
                                 })
@@ -135,14 +150,14 @@ class AppMainActivity : AppCompatActivity() {
             if (bindService(intent, mServiceConnection, 0)) {
                 // 绑定成功。
                 Log.i(resources.getString(R.string.log_tag),
-                        "AppMainActivity binded to AppVersionCheckingService successfully.")
+                        "AppMainActivity bound to AppVersionCheckingService successfully.")
             } else {
                 // 绑定失败。
                 // 抛出异常。
-                val exception = AndroidRuntimeException("AppMainActivity binded to AppVersionCheckingService failed.")
+                val exception = AndroidRuntimeException("AppMainActivity bound to AppVersionCheckingService failed.")
                 Log.e(resources.getString(R.string.log_tag),
                         resources.getString(R.string.log_errorMessage,
-                                "AppMainActivity binded to AppVersionCheckingService failed."),
+                                "AppMainActivity bound to AppVersionCheckingService failed."),
                         exception)
                 throw exception
             }

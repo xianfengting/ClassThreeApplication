@@ -38,7 +38,7 @@ class AppVersionCheckingService : Service() {
 
         mApplicationObj = application as AppMainApplication
 
-        mAppVersionManager = DefaultAppVersionManager(null, mApplicationObj.mCurrentVersion, false, null)
+        mAppVersionManager = DefaultAppVersionManager(null, mApplicationObj.mCurrentVersion, false, null, null)
 
         mAppVersionCheckingThread = object : Thread("AppVersionCheckingService-mAppVersionCheckingThread") {
             override fun run() {
@@ -89,6 +89,18 @@ class AppVersionCheckingService : Service() {
 
                 // 根据 JSON 数据字符串创建 JSONObject 对象。
                 val jsonObject = JSONObject(latestVersionJsonString)
+                // 获取到最新版本的版本信息。
+                val latestVersionBody = jsonObject.getString("body")
+                // 将版本信息每行拆分成数组。
+                val latestVersionBodyLineArray = latestVersionBody.split("\\r\\n")
+                // 遍历数组。
+                latestVersionBodyLineArray.forEach {
+                    // 如果该行是中国下载链接。
+                    if (it.startsWith("chinese_download_url=")) {
+                        // 获取到中国的下载链接。
+                        mAppVersionManager.mChineseUpdateDownloadUrl = it.substring("chinese_download_url=".length)
+                    }
+                }
                 // 获取到最新版本的版本号。
                 val latestVersionNumberString = jsonObject.getString("tag_name")
                 // 根据获取到的版本号创建 AppVersion 对象。
